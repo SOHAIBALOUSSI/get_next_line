@@ -12,6 +12,35 @@
 
 #include "get_next_line.h"
 
+static char	*read_line(int fd, char *content, char *buffer);
+static char	*get_rest(char *line);
+
+char	*get_next_line(int fd)
+{
+	static char	*content;
+	char		*buffer;
+	char		*line;
+
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, 0, 0) < 0)
+	{
+		free(buffer);
+		free(content);
+		buffer = NULL;
+		content = NULL;
+		return (0);
+	}
+	if (!buffer)
+		return (NULL);
+	line = read_line(fd, content, buffer);
+	free(buffer);
+	buffer = NULL;
+    if (!line)
+        return (NULL);
+	content = get_rest(line);
+	return (line);
+}
+
 static char	*read_line(int fd, char *content, char *buffer)
 {
 	ssize_t	r_char;
@@ -58,34 +87,10 @@ static char	*get_rest(char *line)
 	return (result);
 }
 
-char	*get_next_line(int fd)
-{
-	static char	*content;
-	char		*buffer;
-	char		*line;
+int main(){
 
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, 0, 0) < 0)
-	{
-		free(buffer);
-		free(content);
-		buffer = NULL;
-		content = NULL;
-		return (0);
-	}
-	if (!buffer)
-		return (NULL);
-	line = read_line(fd, content, buffer);
-	free(buffer);
-	buffer = NULL;
-	content = get_rest(line);
-	return (line);
+	int fd = open("batman.txt", O_RDWR);
+
+	printf("1st: %s \n", get_next_line(fd));
+	printf("2nd (SHOULD RETURN NULL): %s", get_next_line(fd));
 }
-
-// int main(){
-
-// 	int fd = open("batman.txt", O_RDWR);
-
-// 	printf("1st: %s \n", get_next_line(fd));
-// 	printf("2nd (SHOULD RETURN NULL): %s", get_next_line(fd));
-// }
