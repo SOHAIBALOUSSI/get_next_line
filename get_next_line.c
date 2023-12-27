@@ -15,46 +15,47 @@
 static char	*read_line(int fd, char *content, char *buffer)
 {
 	ssize_t	r_char;
-	char *tmp;
+	char	*tmp;
 
 	r_char = 1;
-	while(r_char > 0)
+	while (r_char > 0)
 	{
 		r_char = read(fd, buffer, BUFFER_SIZE);
-		if(r_char == -1)
+		if (r_char == -1)
 		{
 			free(buffer);
 			buffer = NULL;
 			return (NULL);
 		}
 		if (r_char == 0)
-			break;
+			break ;
 		tmp = content;
 		content = ft_strjoin(tmp, buffer);
 		if (ft_strchr(content, '\n'))
-			break;
+			break ;
 	}
 	return (content);
 }
 
-static char *get_rest(char *line)
+static char	*get_rest(char *line)
 {
-	int i;
-	char *result;
+	int		i;
+	char	*result;
 
 	i = 0;
 	while (line[i] != '\n' && line[i] != '\0')
 		i++;
-	if (line[i] == 0)
-		return (0);
+	if (line[i] == '\0')
+		return (NULL);
 	result = ft_substr(line, i + 1, ft_strlen(line) - i);
 	if (!result)
 	{
 		free(result);
 		result = NULL;
+		return (NULL);
 	}
 	line[i + 1] = '\0';
-	return(result);
+	return (result);
 }
 
 char	*get_next_line(int fd)
@@ -81,12 +82,10 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-int main(){
+// int main(){
 
-	int fd = open("batman.txt", O_RDWR);
-	// char content[] = "salam ";
-	// char *buffer;
-	// buffer = malloc(BUFFER_SIZE + 1);
-	printf("%s \n", get_next_line(fd));
-	printf("second line test : %s \n", get_next_line(fd));
-}
+// 	int fd = open("batman.txt", O_RDWR);
+
+// 	printf("1st: %s \n", get_next_line(fd));
+// 	printf("2nd (SHOULD RETURN NULL): %s", get_next_line(fd));
+// }
