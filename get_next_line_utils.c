@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
+	if (!s)
+		return(NULL);
 	i = 0;
 	while (s[i])
 		i++;
@@ -26,6 +28,8 @@ int	ft_strchr(const char *s, char c)
 {
 	int		i;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	while (s[i])
 	{
@@ -41,6 +45,8 @@ char	*ft_strdup(const char *s)
 	size_t	i;
 	char	*new;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	new = (char *)malloc(ft_strlen(s) + 1);
 	if (!new)
