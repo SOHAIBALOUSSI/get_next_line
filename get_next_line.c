@@ -21,7 +21,7 @@ char	*get_next_line(int fd)
 	char		*buffer;
 	char		*line;
 
-	buffer = malloc(BUFFER_SIZE + 1);
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
 		free(content);
@@ -43,28 +43,29 @@ char	*get_next_line(int fd)
 
 static char	*read_line(int fd, char *content, char *buffer)
 {
-	ssize_t	r_char;
+	ssize_t	readed;
 	char	*tmp;
 
-	r_char = 1;
-	while (r_char > 0)
+	readed = 1;
+	while (readed > 0)
 	{
-		r_char = read(fd, buffer, BUFFER_SIZE);
-		if (r_char == -1)
+		readed = read(fd, buffer, BUFFER_SIZE);
+		if (readed == -1)
 		{
 			free(buffer);
+			buffer = NULL;
 			return (NULL);
 		}
-		else if (r_char == 0)
+		else if (readed == 0)
 			break ;
 		if (!content)
 			content = ft_strdup("");
-		buffer[r_char] = 0;
+		buffer[readed] = '\0';
 		tmp = content;
 		content = ft_strjoin(tmp, buffer);
 		free(tmp);
 		tmp = NULL;
-		if (ft_strchr(buffer, '\n'))
+		if (ft_strchr(buffer, '\n') != 0)
 			break ;
 	}
 	return (content);
@@ -92,19 +93,17 @@ static char	*get_rest(char *line)
 	return (result);
 }
 
-// int main()
-// {
-//     int fd = open("batman.txt", O_RDONLY);
-//     char *line;
-// 	int nb = 1;
+int main()
+{
+    int fd = open("batman.txt", O_RDONLY);
+    char *line;
 
-//     while ((line = get_next_line(fd)) != NULL)
-//     {
-//         printf("Line No %d: %s", nb, line);
-//         free(line);
-// 		line = NULL;
-// 		nb++;
-//     }
-//     close(fd);
-//     return (0);
-// }
+
+	while ((line = get_next_line(1)) != NULL)
+	{
+		printf("\n\n\nresult = %s", line);
+	}
+
+	free(line);
+    return (0);
+}

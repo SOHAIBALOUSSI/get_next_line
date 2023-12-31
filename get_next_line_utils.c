@@ -14,7 +14,7 @@
 
 size_t	ft_strlen(const char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (s[i])
@@ -22,20 +22,18 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strchr(const char *s, int c)
+int	ft_strchr(const char *s, char c)
 {
 	int		i;
-	char	char_c;
 
 	i = 0;
-	char_c = (char)c;
 	while (s[i])
 	{
-		if (s[i] == char_c)
-			return ((char *)&s[i]);
+		if (s[i] == c)
+			return (1);
 		i++;
 	}
-	return (NULL);
+	return (0);
 }
 
 char	*ft_strdup(const char *s)
