@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sait-alo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/24 13:31:06 by sait-alo          #+#    #+#             */
-/*   Updated: 2023/12/24 13:31:14 by sait-alo         ###   ########.fr       */
+/*   Created: 2024/01/01 09:08:00 by sait-alo          #+#    #+#             */
+/*   Updated: 2024/01/01 09:08:04 by sait-alo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *s)
 {
@@ -29,7 +29,7 @@ int	ft_strchr(const char *s, char c)
 	int		i;
 
 	if (!s)
-		return (0);
+		return (-1);
 	i = 0;
 	while (s[i])
 	{

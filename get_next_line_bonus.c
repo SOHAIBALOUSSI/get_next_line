@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sait-alo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/24 13:30:38 by sait-alo          #+#    #+#             */
-/*   Updated: 2023/12/24 13:30:40 by sait-alo         ###   ########.fr       */
+/*   Created: 2024/01/01 09:07:29 by sait-alo          #+#    #+#             */
+/*   Updated: 2024/01/01 09:07:32 by sait-alo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*read_line(int fd, char *content, char *buffer);
 static char	*get_rest(char *line);
@@ -77,6 +77,8 @@ static char	*get_rest(char *line)
 	char	*result;
 
 	i = 0;
+	if (!line)
+		return (NULL);
 	while (line[i] != '\n' && line[i] != '\0')
 		i++;
 	if (line[i] == '\0')
@@ -89,19 +91,4 @@ static char	*get_rest(char *line)
 	}
 	line[i + 1] = '\0';
 	return (result);
-}
-
-int main()
-{
-    int fd = open("batman.txt", O_RDONLY);
-    char *line;
-
-	int nb = 1;
-	while ((line = get_next_line(fd)))
-	{
-		printf("\nline(%d) = %s", nb++, line);
-		close(fd); printf("%d", line); printf("fd closed");
-		
-	}
-    return (0);
 }
