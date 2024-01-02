@@ -17,27 +17,28 @@ static char	*get_rest(char *line);
 
 char	*get_next_line(int fd)
 {
-	static char	*content;
+	static char	*content[MAX_FD];
 	char		*buffer;
 	char		*line;
 
-	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buffer, 0) < 0)
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (fd < 0 || fd > MAX_FD || BUFFER_SIZE <= 0 \
+	|| read(fd, buffer, 0) < 0)
 	{
-		free(content);
+		free(content[fd]);
 		free(buffer);
-		content = NULL;
+		content[fd] = NULL;
 		buffer = NULL;
 		return (NULL);
 	}
 	if (!buffer)
 		return (NULL);
-	line = read_line(fd, content, buffer);
+	line = read_line(fd, content[fd], buffer);
 	free(buffer);
 	buffer = NULL;
 	if (!line)
 		return (NULL);
-	content = get_rest(line);
+	content[fd] = get_rest(line);
 	return (line);
 }
 
@@ -53,7 +54,6 @@ static char	*read_line(int fd, char *content, char *buffer)
 		if (readed == -1)
 		{
 			free(buffer);
-			buffer = NULL;
 			return (NULL);
 		}
 		else if (readed == 0)
