@@ -12,35 +12,6 @@
 
 #include "get_next_line.h"
 
-static char	*read_line(int fd, char *content, char *buffer);
-static char	*get_rest(char *line);
-
-char	*get_next_line(int fd)
-{
-	static char	*content;
-	char		*buffer;
-	char		*line;
-
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buffer, 0) < 0)
-	{
-		free(content);
-		free(buffer);
-		content = NULL;
-		buffer = NULL;
-		return (NULL);
-	}
-	if (!buffer)
-		return (NULL);
-	line = read_line(fd, content, buffer);
-	free(buffer);
-	buffer = NULL;
-	if (!line)
-		return (NULL);
-	content = get_rest(line);
-	return (line);
-}
-
 static char	*read_line(int fd, char *content, char *buffer)
 {
 	ssize_t	readed;
@@ -89,3 +60,47 @@ static char	*get_rest(char *line)
 	line[i + 1] = '\0';
 	return (result);
 }
+
+char	*get_next_line(int fd)
+{
+	static char	*content;
+	char		*buffer;
+	char		*line;
+
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buffer, 0) < 0)
+	{
+		free(content);
+		free(buffer);
+		content = NULL;
+		buffer = NULL;
+		return (NULL);
+	}
+	if (!buffer)
+		return (NULL);
+	line = read_line(fd, content, buffer);
+	free(buffer);
+	buffer = NULL;
+	if (!line)
+		return (NULL);
+	content = get_rest(line);
+	return (line);
+}
+
+// # include <stdio.h>
+// # include <fcntl.h>
+
+// int main()
+// {
+//     int fd = open("get_next_line.c", O_RDONLY);
+
+// 	char *line;
+// 	// int nb = 1;
+// 	while ((line = get_next_line(fd)) != NULL)
+// 	{
+// 		printf("line () => %s", line);
+// 		free(line);
+// 	}
+// 	close(fd);
+// 	return (0);
+// }

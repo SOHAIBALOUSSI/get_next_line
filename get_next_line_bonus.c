@@ -12,36 +12,6 @@
 
 #include "get_next_line_bonus.h"
 
-static char	*read_line(int fd, char *content, char *buffer);
-static char	*get_rest(char *line);
-
-char	*get_next_line(int fd)
-{
-	static char	*content[MAX_FD];
-	char		*buffer;
-	char		*line;
-
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (fd < 0 || fd > MAX_FD || BUFFER_SIZE <= 0 \
-	|| read(fd, buffer, 0) < 0)
-	{
-		free(content[fd]);
-		free(buffer);
-		content[fd] = NULL;
-		buffer = NULL;
-		return (NULL);
-	}
-	if (!buffer)
-		return (NULL);
-	line = read_line(fd, content[fd], buffer);
-	free(buffer);
-	buffer = NULL;
-	if (!line)
-		return (NULL);
-	content[fd] = get_rest(line);
-	return (line);
-}
-
 static char	*read_line(int fd, char *content, char *buffer)
 {
 	ssize_t	readed;
@@ -91,4 +61,31 @@ static char	*get_rest(char *line)
 	}
 	line[i + 1] = '\0';
 	return (result);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*content[MAX_FD];
+	char		*buffer;
+	char		*line;
+
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (fd < 0 || fd > MAX_FD || BUFFER_SIZE <= 0 \
+	|| read(fd, buffer, 0) < 0)
+	{
+		free(content[fd]);
+		free(buffer);
+		content[fd] = NULL;
+		buffer = NULL;
+		return (NULL);
+	}
+	if (!buffer)
+		return (NULL);
+	line = read_line(fd, content[fd], buffer);
+	free(buffer);
+	buffer = NULL;
+	if (!line)
+		return (NULL);
+	content[fd] = get_rest(line);
+	return (line);
 }
