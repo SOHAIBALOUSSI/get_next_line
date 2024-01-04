@@ -28,8 +28,6 @@ static char	*read_line(int fd, char *content, char *buffer)
 		}
 		else if (readed == 0)
 			break ;
-		if (!content)
-			content = ft_strdup("");
 		buffer[readed] = '\0';
 		tmp = content;
 		content = ft_strjoin(tmp, buffer);
