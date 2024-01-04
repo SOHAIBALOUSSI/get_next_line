@@ -70,8 +70,7 @@ char	*get_next_line(int fd)
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
-		if (content)
-			free(content);
+		free(content);
 		free(buffer);
 		content = NULL;
 		buffer = NULL;
@@ -85,20 +84,3 @@ char	*get_next_line(int fd)
 	content = get_rest(line);
 	return (line);
 }
-
-// #include <fcntl.h>
-// #include <stdio.h>
-//  int main()
-//  {
-//  	int fd = open("mjouneb.txt", O_RDWR);
-//  	char *line = "h";
-// 	while (line != NULL)
-// 	{	
-// 		line = get_next_line(fd);
-//  		printf("%s", line);
-// 	}
-//  	close(fd);
-//  	/*fd = open("get_next_line.c", O_RDWR);
-//  	line = get_next_line(1);
-//  	printf("%s", line);*/
-//  }
