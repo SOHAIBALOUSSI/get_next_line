@@ -21,7 +21,7 @@ static char	*read_line(int fd, char *content, char *buffer)
 	while (readed > 0 && !(ft_strchr(content, '\n')))
 	{
 		readed = read(fd, buffer, BUFFER_SIZE);
-		if (readed == -1)
+		if (readed < 0)
 		{
 			free(buffer);
 			return (NULL);
@@ -36,7 +36,8 @@ static char	*read_line(int fd, char *content, char *buffer)
 		free(tmp);
 		tmp = NULL;
 	}
-	free(buffer);
+	if (buffer)
+		free(buffer);
 	return (content);
 }
 
@@ -46,8 +47,6 @@ static char	*get_rest(char *line)
 	char	*result;
 
 	i = 0;
-	if (!line)
-		return (NULL);
 	while (line[i] != '\n' && line[i] != '\0')
 		i++;
 	if (line[i] == '\0')
@@ -69,15 +68,14 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (fd < 0 || fd > MAX_FD || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
 		free(buffer);
-		buffer = NULL;
 		return (NULL);
 	}
 	if (!buffer)
 		return (NULL);
-	line = read_line(fd, content[fd], buffer);
+	line = read_line(fd, content, buffer);
 	if (!line)
 		return (NULL);
 	content[fd] = get_rest(line);
