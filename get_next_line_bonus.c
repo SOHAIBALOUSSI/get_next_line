@@ -71,9 +71,7 @@ char	*get_next_line(int fd)
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (fd < 0 || fd > MAX_FD || BUFFER_SIZE <= 0)
 	{
-		free(content[fd]);
 		free(buffer);
-		content[fd] = NULL;
 		buffer = NULL;
 		return (NULL);
 	}
