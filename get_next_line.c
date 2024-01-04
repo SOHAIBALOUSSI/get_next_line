@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 static char	*read_line(int fd, char *content, char *buffer)
 {
@@ -67,12 +66,9 @@ char	*get_next_line(int fd)
 	static char	*content;
 	char		*buffer;
 	char		*line;
-	int flag;
 
-	flag = read(fd, buffer, 0);
-	printf("%d\n", flag);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buffer, 0) < 0)
 	{
 		free(content);
 		free(buffer);
@@ -83,28 +79,10 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (NULL);
 	line = read_line(fd, content, buffer);
-	if (!line)
-		return (NULL);
 	free(buffer);
 	buffer = NULL;
+	if (!line)
+		return (NULL);
 	content = get_rest(line);
 	return (line);
-}
-
-# include <stdio.h>
-# include <fcntl.h>
-
-int main()
-{
-    int fd = open("get_next_line.", O_RDONLY);
-
-	char *line;
-	// int nb = 1;
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("line () => %s", line);
-		free(line);
-	}
-	close(fd);
-	return (0);
 }
