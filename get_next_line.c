@@ -86,21 +86,3 @@ char	*get_next_line(int fd)
 	content = get_rest(line);
 	return (line);
 }
-
-// # include <stdio.h>
-// # include <fcntl.h>
-
-// int main()
-// {
-//     int fd = open("get_next_line.c", O_RDONLY);
-
-// 	char *line;
-// 	// int nb = 1;
-// 	while ((line = get_next_line(fd)) != NULL)
-// 	{
-// 		printf("line () => %s", line);
-// 		free(line);
-// 	}
-// 	close(fd);
-// 	return (0);
-// }

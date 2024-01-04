@@ -29,7 +29,7 @@ int	ft_strchr(const char *s, char c)
 	int		i;
 
 	if (!s)
-		return (-1);
+		return (0);
 	i = 0;
 	while (s[i])
 	{
