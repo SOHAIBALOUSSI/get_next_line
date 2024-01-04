@@ -38,6 +38,7 @@ static char	*read_line(int fd, char *content, char *buffer)
 		if (ft_strchr(buffer, '\n') != 0)
 			break ;
 	}
+	free(buffer);
 	return (content);
 }
 
@@ -68,7 +69,7 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buffer, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
 		free(content);
 		free(buffer);
@@ -79,8 +80,6 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (NULL);
 	line = read_line(fd, content, buffer);
-	free(buffer);
-	buffer = NULL;
 	if (!line)
 		return (NULL);
 	content = get_rest(line);
