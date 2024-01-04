@@ -18,7 +18,7 @@ static char	*read_line(int fd, char *content, char *buffer)
 	char	*tmp;
 
 	readed = 1;
-	while (readed > 0)
+	while (readed > 0 && !(ft_strchr(content, '\n')))
 	{
 		readed = read(fd, buffer, BUFFER_SIZE);
 		if (readed == -1)
@@ -35,8 +35,6 @@ static char	*read_line(int fd, char *content, char *buffer)
 		content = ft_strjoin(tmp, buffer);
 		free(tmp);
 		tmp = NULL;
-		if (ft_strchr(buffer, '\n') != 0)
-			break ;
 	}
 	free(buffer);
 	return (content);
