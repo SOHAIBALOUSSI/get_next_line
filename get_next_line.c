@@ -36,8 +36,7 @@ static char	*read_line(int fd, char *content, char *buffer)
 		free(tmp);
 		tmp = NULL;
 	}
-	if (buffer)
-		free(buffer);
+	free(buffer);
 	return (content);
 }
 
@@ -70,9 +69,7 @@ char	*get_next_line(int fd)
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
-		free(content);
 		free(buffer);
-		content = NULL;
 		buffer = NULL;
 		return (NULL);
 	}
